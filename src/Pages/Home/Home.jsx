@@ -3,6 +3,10 @@ import { Link } from "react-router-dom";
 import gsap from "gsap";
 import { useRef } from "react";
 import Content from "../Content/Content";
+import Highlights from "../Highlights/Hightlights";
+import Showcase from "../Showcase/Showcase";
+import Artists from "../Artists/Artists";
+import Showrell from "../Showreel/Showrell";
 
 export default function HomePage() {
   const [isRevealed, setIsRevealed] = useState(false);
@@ -168,6 +172,10 @@ export default function HomePage() {
         </style>
       </main>
       <Content />
+      <Highlights />
+      <Showcase/>
+      <Artists/>
+      <Showrell/>
     </>
   );
 }
