@@ -60,15 +60,15 @@ export default function Navbar() {
       {/* Top Nav Bar */}
       <nav
         ref={navRef}
-        className={`w-full bg-black text-white flex items-center justify-between px-10 py-4 relative z-50${
+        className={`w-full bg-black text-white flex items-center justify-between px-4 sm:px-6 md:px-10 py-4 relative z-50${
           menuOpen ? " invisible" : ""
         }`}
       >
         {/* Left: Home & Gallery */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 sm:gap-4">
           <Link
             to="/"
-            className="px-2 py-1 rounded-full border border-white/50 hover:border-white transition relative overflow-hidden group flex items-center gap-1"
+            className="hidden md:flex px-2 py-1 rounded-full border border-white/50 hover:border-white transition relative overflow-hidden group items-center gap-1"
           >
             <span className="relative z-10">HOME</span>
             <span className="inline-block transition-transform duration-300 group-hover:rotate-180">
@@ -78,7 +78,7 @@ export default function Navbar() {
           </Link>
           <Link
             to="/gallery"
-            className="px-2 py-1 rounded-full border border-white/50 hover:border-white transition relative overflow-hidden group flex items-center gap-1"
+            className="hidden md:flex px-2 py-1 rounded-full border border-white/50 hover:border-white transition relative overflow-hidden group items-center gap-1"
           >
             <span className="relative z-10">GALLERY</span>
             <span className="inline-block transition-transform duration-300 group-hover:rotate-180">
@@ -96,17 +96,18 @@ export default function Navbar() {
         </div>
 
         {/* Right: Contact & Menu */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 sm:gap-4">
           <Link
             to="/contact"
-            className="px-2 py-1 rounded-full border border-white/50 hover:border-white transition relative overflow-hidden group"
+            className="hidden md:flex px-2 py-1 rounded-full border border-white/50 hover:border-white transition relative overflow-hidden group"
           >
             CONTACT
             <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-white group-hover:w-full transition-all duration-300"></span>
           </Link>
           <button
             onClick={toggleMenu}
-            className="w-8 h-8 flex flex-col justify-center items-center space-y-1 group hover:scale-110 transition-transform duration-300"
+            className="w-8 h-8 flex flex-col justify-center items-center space-y-1 group hover:scale-110 transition-transform duration-300 focus:outline-none"
+            aria-label="Open menu"
           >
             <span className="w-5 h-0.5 bg-white group-hover:bg-gray-400 transition"></span>
             <span className="w-5 h-0.5 bg-white group-hover:bg-gray-400 transition"></span>

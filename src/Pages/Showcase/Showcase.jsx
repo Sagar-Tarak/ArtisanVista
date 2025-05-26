@@ -1,13 +1,18 @@
 import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 function Showcase() {
   // Refs for animations
   const subtitleRef = useRef(null);
   const titleRefs = useRef([]);
   const imageRefs = useRef([]);
+  const featuredRef = useRef(null);
+  const bgTextRef = useRef(null);
+  const viewBtnRef = useRef(null);
 
   useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
     // Main timeline
     const tl = gsap.timeline({
       defaults: { ease: "power3.out" }
@@ -60,6 +65,60 @@ function Showcase() {
       "-=1"
     );
 
+    // Scroll-triggered animation for Featured Artwork Section
+    if (featuredRef.current) {
+      gsap.fromTo(
+        featuredRef.current,
+        { y: 80, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1.2,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: featuredRef.current,
+            start: 'top 80%',
+            toggleActions: 'play none none reverse',
+          },
+        }
+      );
+    }
+
+    // Scroll-triggered animation for background text
+    if (bgTextRef.current) {
+      gsap.fromTo(
+        bgTextRef.current,
+        { y: 100, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1.2,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: bgTextRef.current,
+            start: 'top 90%',
+            toggleActions: 'play none none reverse',
+          },
+        }
+      );
+    }
+
+    // Micro-interaction: View Artwork button hover
+    if (viewBtnRef.current) {
+      const btn = viewBtnRef.current;
+      const onEnter = () => {
+        gsap.to(btn, { scale: 1.08, backgroundColor: 'rgba(255,255,255,0.08)', duration: 0.2, ease: 'power1.out' });
+      };
+      const onLeave = () => {
+        gsap.to(btn, { scale: 1, backgroundColor: 'rgba(255,255,255,0)', duration: 0.2, ease: 'power1.in' });
+      };
+      btn.addEventListener('mouseenter', onEnter);
+      btn.addEventListener('mouseleave', onLeave);
+      return () => {
+        btn.removeEventListener('mouseenter', onEnter);
+        btn.removeEventListener('mouseleave', onLeave);
+      };
+    }
   }, []);
 
   const artworks = [
@@ -164,6 +223,7 @@ function Showcase() {
         }}
       >
         <h1 
+          ref={bgTextRef}
           className="text-[12vw] font-['Cinzel'] leading-none tracking-tighter text-center"
           style={{
             background: 'linear-gradient(to bottom, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.1) 60%, transparent 100%)',
@@ -177,7 +237,7 @@ function Showcase() {
       </section>
 
       {/* Featured Artwork Section */}
-      <section className="min-h-screen bg-black text-white px-4 py-32">
+      <section ref={featuredRef} className="min-h-screen bg-black text-white px-4 py-32">
         <div className="max-w-6xl mx-auto">
           {/* Top Description */}
           <div className="text-center mb-32 space-y-6">
@@ -206,19 +266,18 @@ function Showcase() {
             <img 
               src="https://images.unsplash.com/photo-1598838073192-05c942ede858?q=80&w=2934&auto=format&fit=crop" 
               alt="Forest Cross Artwork"
-              className="w-full h-full object-cover rounded-sm"
+              className=" w-full h-full object-cover rounded-sm"
             />
           </div>
 
           {/* View Artwork Button */}
           <div className="text-center mt-12 flex items-center justify-center gap-6">
-            <button className="px-3 py-4 border border-white/20 rounded-2xl hover:bg-white/5 transition-colors">
+            <button ref={viewBtnRef} className="px-3 py-4 border border-white/20 rounded-2xl hover:bg-white/5 transition-colors">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
             </button>
             <span className="text-sm tracking-wide">View Artwork</span>
-            
           </div>
         </div>
       </section>
